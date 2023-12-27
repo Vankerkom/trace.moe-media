@@ -15,6 +15,9 @@ export default async (filePath, t, minDuration) => {
     return null;
   }
 
+  console.info(`Detecting scene for T: ${t} -> ${filePath}`);
+
+  const sceneDetectStart = performance.now();
   const tBefore = 5;
   const tAfter = 5;
   let trimStart = t - tBefore;
@@ -119,6 +122,10 @@ export default async (filePath, t, minDuration) => {
   // console.log(frameInfo);
   const sceneTrimStart = trimStart + startFrameID / fps;
   const sceneTrimEnd = trimStart + endFrameID / fps;
+
+  const sceneDetectEnd = performance.now();
+  const sceneDetectDuration = sceneDetectEnd - sceneDetectStart;
+  console.log(`sceneDetect took ${sceneDetectDuration.toFixed(3)} milliseconds`);
 
   return {
     start: sceneTrimStart,
