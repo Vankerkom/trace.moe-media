@@ -3,7 +3,7 @@ import fs from "fs-extra";
 import crypto from "crypto";
 import child_process from "child_process";
 
-import detectScene from "./lib/detect-scene.js";
+import { sceneManager } from "./lib/scene-manager.js";
 
 const { VIDEO_PATH = "/mnt/", TRACE_MEDIA_SALT } = process.env;
 
@@ -105,7 +105,7 @@ export default async (req, res) => {
   }
   const minDuration = Number(req.query.minDuration) || 0.25;
   try {
-    const scene = await detectScene(videoFilePath, t, minDuration > 2 ? 2 : minDuration);
+    const scene = await sceneManager.detectScene(videoFilePath, t, minDuration > 2 ? 2 : minDuration);
     if (scene === null) {
       return res.status(500).send("Internal Server Error");
     }
